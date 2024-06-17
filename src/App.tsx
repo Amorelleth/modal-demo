@@ -20,6 +20,9 @@ export function App() {
             action: {
               text: "Save",
             },
+            dismiss: {
+              text: "Cancel",
+            },
           }}
         >
           Content
