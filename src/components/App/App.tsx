@@ -14,7 +14,7 @@ export function App() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
-        <h1 className={styles.heading}>Page</h1>
+        <h1 className={styles.heading}>Demo Page</h1>
       </header>
 
       <ModalProvider>
