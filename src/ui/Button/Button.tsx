@@ -3,6 +3,15 @@ import type { SVGProps } from "react";
 
 import styles from "./Button.module.css";
 
+export type ButtonProps = {
+  variant?: "action" | "default";
+  shape?: "pill" | "rounded";
+  text?: string;
+  type?: "submit" | "reset" | "button";
+  onClick?: () => void;
+  icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+};
+
 export const Button = ({
   variant = "default",
   shape = "rounded",
@@ -11,14 +20,7 @@ export const Button = ({
   onClick,
   icon: Icon,
   ...props
-}: {
-  variant?: "action" | "default";
-  shape?: "pill" | "rounded";
-  text?: string;
-  type?: "submit" | "reset" | "button";
-  onClick?: () => void;
-  icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element;
-}) => {
+}: ButtonProps) => {
   return (
     <button
       {...props}
