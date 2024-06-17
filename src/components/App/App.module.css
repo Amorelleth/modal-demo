@@ -1,0 +1,10 @@
+.main {
+  padding: 50px;
+  display: grid;
+  justify-content: start;
+  gap: 16px;
+}
+
+.heading {
+  margin: 0;
+}
