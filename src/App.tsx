@@ -12,7 +12,16 @@ export function App() {
 
       <ModalProvider>
         <button onClick={() => setIsOpen(true)}>Open modal</button>
-        <Modal title="Title" isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <Modal
+          title="Title"
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          footer={{
+            action: {
+              text: "Save",
+            },
+          }}
+        >
           Content
           <button onClick={() => setIsOpenNested(true)}>
             Open nested modal

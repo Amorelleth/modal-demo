@@ -12,6 +12,15 @@
 }
 
 .modal {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 18px;
+  --space-6: 24px;
+
+  --color-text: #333;
+
   position: relative;
   display: grid;
   align-content: start;
@@ -20,8 +29,6 @@
   overflow: auto;
   gap: var(--space-2);
   background-color: white;
-  padding-block: var(--space-5);
-  padding-inline: var(--space-5);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
@@ -29,8 +36,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    padding-block: var(--space-5) 0;
+    padding-inline: var(--space-5);
+    background-color: white;
     font-size: 20px;
     font-weight: bold;
+
+    .title {
+      margin: 0;
+    }
 
     .closeButton {
       height: 30px;
@@ -52,5 +68,18 @@
         background-color: color-mix(in srgb, currentColor 20%, transparent);
       }
     }
+  }
+
+  .content {
+    padding-inline: var(--space-5);
+  }
+
+  .footer {
+    position: sticky;
+    background-color: white;
+    bottom: 0;
+
+    padding-block: var(--space-5);
+    padding-inline: var(--space-5);
   }
 }
