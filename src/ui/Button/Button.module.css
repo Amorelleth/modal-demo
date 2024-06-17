@@ -1,0 +1,57 @@
+.button {
+  border: none;
+  padding-inline: 8px;
+  padding-block: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+
+  &:hover {
+    transition: background-color 300ms linear;
+  }
+
+  &:disabled {
+    background-color: #afafaf;
+    color: #6e6d6d;
+    cursor: default;
+  }
+
+  &.action {
+    --background-color-active: #5dd75d;
+
+    background-color: var(--background-color-active);
+    color: #1c401c;
+
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--background-color-active),
+        transparent 30%
+      );
+    }
+  }
+
+  &.default {
+    --background-color-default: #c0c0c0;
+
+    background-color: var(--background-color-default);
+    color: #1f1f1f;
+
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--background-color-default),
+        transparent 30%
+      );
+    }
+  }
+
+  &.pill {
+    border-radius: 999px;
+  }
+
+  &.rounded {
+    border-radius: 8px;
+  }
+}
