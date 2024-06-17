@@ -3,14 +3,14 @@ import type { ReactNode } from "react";
 import { ModalContext } from "./ModalContext";
 
 export const ModalProvider = ({
-  container = document.body,
+  container,
   children,
 }: {
-  container: HTMLElement;
+  container?: HTMLElement | null;
   children: ReactNode;
 }) => {
   return (
-    <ModalContext.Provider value={{ container }}>
+    <ModalContext.Provider value={{ container: container ?? document.body }}>
       {children}
     </ModalContext.Provider>
   );
