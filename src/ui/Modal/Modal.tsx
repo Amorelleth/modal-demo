@@ -1,37 +1,26 @@
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
-  type ButtonHTMLAttributes,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-
 import { clsx } from "clsx";
 
+import { Button, type ButtonProps } from "../Button";
 import { useModal } from "./ModalContext";
-
-import { Button } from "../Button";
-
 import { Cross } from "./Cross";
 
 import styles from "./Modal.module.css";
-
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  text: string;
-  disabled?: boolean;
-  name?: string;
-  type?: "submit" | "reset" | "button";
-  onClick?: () => void;
-};
 
 type ModalProps = {
   title: string;
   size?: "medium";
   children: ReactNode;
   footer?: {
-    action?: ButtonProps;
-    dismiss?: ButtonProps;
+    action?: Omit<ButtonProps, "variant">;
+    dismiss?: Omit<ButtonProps, "variant">;
   };
   onClose: () => void;
   headerClassName?: string;
@@ -64,11 +53,15 @@ export const ModalOpened = ({
 
   const { container } = useModal();
 
+  const animatedOnClose = useCallback(() => {
+    setAnimation("out");
+    setTimeout(onClose, 500);
+  }, [onClose]);
+
   useEffect(() => {
     const close = (event: MouseEvent | TouchEvent) => {
       if (event.target === ref.current) {
-        setAnimation("out");
-        setTimeout(onClose, 500);
+        animatedOnClose();
       }
     };
 
@@ -76,7 +69,7 @@ export const ModalOpened = ({
     return () => {
       document.removeEventListener("click", close);
     };
-  }, [onClose]);
+  }, [onClose, animatedOnClose]);
 
   useEffect(() => {
     setAnimation("in");
@@ -95,14 +88,18 @@ export const ModalOpened = ({
       >
         <ModalHeader
           title={title}
-          onClose={onClose}
+          onClose={animatedOnClose}
           className={headerClassName}
         />
 
         <div className={clsx(contentClassName, styles.content)}>{children}</div>
 
         {(footer?.action || footer?.dismiss) && (
-          <ModalFooter {...footer} className={footerClassName} />
+          <ModalFooter
+            {...footer}
+            className={footerClassName}
+            onClose={animatedOnClose}
+          />
         )}
       </div>
     </div>,
@@ -131,15 +128,35 @@ const ModalFooter = ({
   action,
   dismiss,
   className,
+  onClose,
 }: {
-  action?: ButtonProps;
-  dismiss?: ButtonProps;
+  action?: Omit<ButtonProps, "variant">;
+  dismiss?: Omit<ButtonProps, "variant">;
   className?: string;
+  onClose: () => void;
 }) => {
   return (
     <div className={clsx(className, styles.footer)}>
-      {action && <Button variant="action" text={action.text} />}
-      {dismiss && <Button variant="default" text={dismiss.text} />}
+      {action && (
+        <Button
+          variant="action"
+          onClick={() => {
+            action?.onClick?.();
+            onClose();
+          }}
+          {...action}
+        />
+      )}
+      {dismiss && (
+        <Button
+          variant="default"
+          onClick={() => {
+            dismiss?.onClick?.();
+            onClose();
+          }}
+          {...dismiss}
+        />
+      )}
     </div>
   );
 };
