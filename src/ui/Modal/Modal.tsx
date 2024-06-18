@@ -3,6 +3,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type RefObject,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
@@ -47,7 +48,8 @@ export const ModalOpened = ({
   contentClassName,
   footerClassName,
 }: ModalProps) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
 
   const [animation, setAnimation] = useState<"in" | "out">();
 
@@ -73,6 +75,7 @@ export const ModalOpened = ({
 
   useEffect(() => {
     setAnimation("in");
+    closeButton.current?.focus();
   }, []);
 
   return createPortal(
@@ -88,6 +91,7 @@ export const ModalOpened = ({
       >
         <ModalHeader
           title={title}
+          buttonRef={closeButton}
           onClose={animatedOnClose}
           className={headerClassName}
         />
@@ -110,16 +114,24 @@ export const ModalOpened = ({
 const ModalHeader = ({
   title,
   className,
+  buttonRef,
   onClose,
 }: {
   title: string;
   className?: string;
+  buttonRef: RefObject<HTMLButtonElement>;
   onClose: () => void;
 }) => {
   return (
     <header className={clsx(className, styles.header)}>
       <h3 className={styles.title}>{title}</h3>
-      <Button shape="pill" onClick={onClose} icon={Cross} />
+      <Button
+        shape="pill"
+        onClick={onClose}
+        ariaLabel="Close"
+        ref={buttonRef}
+        icon={Cross}
+      />
     </header>
   );
 };
