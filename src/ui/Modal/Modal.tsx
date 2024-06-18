@@ -19,14 +19,24 @@ import styles from "./Modal.module.css";
 
 export type ModalProps = {
   title: string;
-  size?: "medium";
   children: ReactNode;
+  onClose: () => void;
+
+  size?: "medium";
   footer?: {
     action?: FooterProps["action"];
     dismiss?: FooterProps["dismiss"];
   };
-  onClose: () => void;
   triggerRef?: RefObject<HTMLElement>;
+  ariaProps?: {
+    closeButton?: {
+      label?: string;
+    };
+    modal?: {
+      describedby?: string;
+      labelledby?: string;
+    };
+  };
   headerClassName?: string;
   contentClassName?: string;
   footerClassName?: string;
@@ -48,23 +58,24 @@ const ModalOpened = ({
   footer,
   onClose,
   triggerRef,
+  ariaProps,
   headerClassName,
   contentClassName,
   footerClassName,
 }: ModalProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const closeButton = useRef<HTMLButtonElement>(null);
 
   const [animation, setAnimation] = useState<"in" | "out">();
 
   const { container } = useModal();
-  const { handleTab } = useFocusTrap(ref?.current);
+  const { firstFocusable, handleTab } = useFocusTrap(ref?.current);
 
   const labelId = useId();
   const descriptionId = useId();
 
   const animatedOnClose = useCallback(() => {
     setAnimation("out");
+
     setTimeout(() => {
       triggerRef?.current?.focus();
       onClose();
@@ -96,8 +107,8 @@ const ModalOpened = ({
 
   useEffect(() => {
     setAnimation("in");
-    closeButton.current?.focus();
-  }, []);
+    firstFocusable?.focus();
+  }, [firstFocusable]);
 
   return createPortal(
     <div
@@ -111,17 +122,18 @@ const ModalOpened = ({
         role="dialog"
         aria-modal="true"
         aria-describedby={
-          typeof children === "string" ? descriptionId : undefined
+          ariaProps?.modal?.describedby ??
+          (typeof children === "string" ? descriptionId : undefined)
         }
-        aria-labelledby={labelId}
+        aria-labelledby={ariaProps?.modal?.labelledby ?? labelId}
         className={clsx(styles.modal, { [styles.medium]: size === "medium" })}
       >
         <ModalHeader
           title={title}
-          buttonRef={closeButton}
           onClose={animatedOnClose}
           className={headerClassName}
           labelId={labelId}
+          buttonAriaLabel={ariaProps?.closeButton?.label}
         />
 
         <div
