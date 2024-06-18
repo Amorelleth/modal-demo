@@ -1,18 +1,39 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-import { Modal, ModalProvider } from "../../ui/Modal";
+import { Modal, ModalProvider, type ModalProps } from "../../ui/Modal";
 import { Button } from "../../ui/Button";
 
 import styles from "./App.module.css";
 
-export function App() {
-  const [isBaseOpen, setIsBaseOpen] = useState(false);
-  const [isLongcontentOpen, setIsLongContentOpen] = useState(false);
-  const [isWithOneControlOpen, setIsWithOneControlOpen] = useState(false);
-  const [isWithoutFooterOpen, setIsWithoutFooterOpen] = useState(false);
-  const [isWithDisabledActionOpen, setIsWithDisabledActionOpen] =
-    useState(false);
+const DemoModal = ({
+  triggerText,
+  ...props
+}: Omit<ModalProps, "title" | "isOpen" | "onClose"> & {
+  triggerText: string;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
 
+  const triggerRef = useRef(null);
+
+  return (
+    <>
+      <Button
+        ref={triggerRef}
+        onClick={() => setIsOpen(true)}
+        text={triggerText}
+      />
+      <Modal
+        {...props}
+        title="Title"
+        triggerRef={triggerRef}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
+    </>
+  );
+};
+
+export function App() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
@@ -20,11 +41,8 @@ export function App() {
       </header>
 
       <ModalProvider>
-        <Button onClick={() => setIsBaseOpen(true)} text="Open base modal" />
-        <Modal
-          title="Title"
-          isOpen={isBaseOpen}
-          onClose={() => setIsBaseOpen(false)}
+        <DemoModal
+          triggerText="Open base modal"
           footer={{
             action: {
               text: "Save",
@@ -35,16 +53,10 @@ export function App() {
           }}
         >
           Content
-        </Modal>
+        </DemoModal>
 
-        <Button
-          onClick={() => setIsLongContentOpen(true)}
-          text="Open modal with long content"
-        />
-        <Modal
-          title="Title"
-          isOpen={isLongcontentOpen}
-          onClose={() => setIsLongContentOpen(false)}
+        <DemoModal
+          triggerText="Open modal with long content"
           footer={{
             action: {
               text: "Save",
@@ -69,16 +81,10 @@ export function App() {
           risus id fermentum. Nunc ac nisi gravida, iaculis justo eget, varius
           urna. Nullam efficitur eleifend ex ultrices commodo. Duis at dictum
           lacus. Praesent at risus sodales nisl consectetur commodo.
-        </Modal>
+        </DemoModal>
 
-        <Button
-          onClick={() => setIsWithOneControlOpen(true)}
-          text="Open modal with one control"
-        />
-        <Modal
-          title="Title"
-          isOpen={isWithOneControlOpen}
-          onClose={() => setIsWithOneControlOpen(false)}
+        <DemoModal
+          triggerText="Open modal with one control"
           footer={{
             action: {
               text: "Save",
@@ -86,28 +92,12 @@ export function App() {
           }}
         >
           Content
-        </Modal>
+        </DemoModal>
 
-        <Button
-          onClick={() => setIsWithoutFooterOpen(true)}
-          text="Open modal without footer"
-        />
-        <Modal
-          title="Title"
-          isOpen={isWithoutFooterOpen}
-          onClose={() => setIsWithoutFooterOpen(false)}
-        >
-          Content
-        </Modal>
+        <DemoModal triggerText="Open modal without footer">Content</DemoModal>
 
-        <Button
-          onClick={() => setIsWithDisabledActionOpen(true)}
-          text="Open modal with disabled action"
-        />
-        <Modal
-          title="Title"
-          isOpen={isWithDisabledActionOpen}
-          onClose={() => setIsWithDisabledActionOpen(false)}
+        <DemoModal
+          triggerText="Open modal with disabled action"
           footer={{
             action: {
               text: "Save",
@@ -119,7 +109,7 @@ export function App() {
           }}
         >
           Content
-        </Modal>
+        </DemoModal>
       </ModalProvider>
     </main>
   );
