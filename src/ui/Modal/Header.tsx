@@ -1,4 +1,3 @@
-import type { RefObject } from "react";
 import { clsx } from "clsx";
 
 import { Button } from "../Button";
@@ -10,13 +9,13 @@ export const ModalHeader = ({
   labelId,
   title,
   className,
-  buttonRef,
+  buttonAriaLabel = "Close",
   onClose,
 }: {
   labelId: string;
   title: string;
   className?: string;
-  buttonRef: RefObject<HTMLButtonElement>;
+  buttonAriaLabel?: string;
   onClose: () => void;
 }) => {
   return (
@@ -27,8 +26,7 @@ export const ModalHeader = ({
       <Button
         shape="pill"
         onClick={onClose}
-        ariaLabel="Close"
-        ref={buttonRef}
+        ariaLabel={buttonAriaLabel}
         icon={Cross}
       />
     </header>
