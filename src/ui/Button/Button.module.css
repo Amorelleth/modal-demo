@@ -1,9 +1,10 @@
 .button {
   border: none;
+  cursor: pointer;
+  font-size: 18px;
   padding-inline: 8px;
   padding-block: 8px;
-  font-size: 18px;
-  cursor: pointer;
+
   display: flex;
   justify-content: center;
 
