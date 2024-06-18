@@ -10,9 +10,9 @@ import {
 import { createPortal } from "react-dom";
 import { clsx } from "clsx";
 
-import { Button, type ButtonProps } from "../Button";
-import { useModal } from "./ModalContext";
-import { Cross } from "./Cross";
+import { ModalHeader } from "./Header";
+import { ModalFooter, type FooterProps } from "./Footer";
+import { useModal } from "./Context";
 import { useFocusTrap } from "./useFocusTrap";
 
 import styles from "./Modal.module.css";
@@ -22,8 +22,8 @@ export type ModalProps = {
   size?: "medium";
   children: ReactNode;
   footer?: {
-    action?: Omit<ButtonProps, "variant">;
-    dismiss?: Omit<ButtonProps, "variant">;
+    action?: FooterProps["action"];
+    dismiss?: FooterProps["dismiss"];
   };
   onClose: () => void;
   triggerRef?: RefObject<HTMLElement>;
@@ -41,7 +41,7 @@ export const Modal = ({
   return <ModalOpened {...props} />;
 };
 
-export const ModalOpened = ({
+const ModalOpened = ({
   title,
   size = "medium",
   children,
@@ -58,6 +58,7 @@ export const ModalOpened = ({
   const [animation, setAnimation] = useState<"in" | "out">();
 
   const { container } = useModal();
+  const { handleTab } = useFocusTrap(ref?.current);
 
   const labelId = useId();
   const descriptionId = useId();
@@ -69,8 +70,6 @@ export const ModalOpened = ({
       onClose();
     }, 500);
   }, [onClose, triggerRef]);
-
-  const { handleTab } = useFocusTrap(ref?.current);
 
   useEffect(() => {
     const close = (event: MouseEvent | TouchEvent) => {
@@ -88,6 +87,7 @@ export const ModalOpened = ({
 
     document.addEventListener("keydown", handleEscapeKey);
     document.addEventListener("click", close);
+
     return () => {
       document.removeEventListener("keydown", handleEscapeKey);
       document.removeEventListener("click", close);
@@ -141,71 +141,5 @@ export const ModalOpened = ({
       </div>
     </div>,
     container
-  );
-};
-
-const ModalHeader = ({
-  labelId,
-  title,
-  className,
-  buttonRef,
-  onClose,
-}: {
-  labelId: string;
-  title: string;
-  className?: string;
-  buttonRef: RefObject<HTMLButtonElement>;
-  onClose: () => void;
-}) => {
-  return (
-    <header className={clsx(className, styles.header)}>
-      <h3 className={styles.title} id={labelId}>
-        {title}
-      </h3>
-      <Button
-        shape="pill"
-        onClick={onClose}
-        ariaLabel="Close"
-        ref={buttonRef}
-        icon={Cross}
-      />
-    </header>
-  );
-};
-
-const ModalFooter = ({
-  action,
-  dismiss,
-  className,
-  onClose,
-}: {
-  action?: Omit<ButtonProps, "variant">;
-  dismiss?: Omit<ButtonProps, "variant">;
-  className?: string;
-  onClose: () => void;
-}) => {
-  return (
-    <div className={clsx(className, styles.footer)}>
-      {action && (
-        <Button
-          variant="action"
-          onClick={() => {
-            action?.onClick?.();
-            onClose();
-          }}
-          {...action}
-        />
-      )}
-      {dismiss && (
-        <Button
-          variant="default"
-          onClick={() => {
-            dismiss?.onClick?.();
-            onClose();
-          }}
-          {...dismiss}
-        />
-      )}
-    </div>
   );
 };
