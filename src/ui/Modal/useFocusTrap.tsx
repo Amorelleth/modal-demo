@@ -6,7 +6,7 @@ const focusableSelectors = [
   "textarea:not([disabled])",
   "input:not([disabled])",
   "select:not([disabled])",
-  '[tabindex]:not([tabindex="-1"])',
+  "[tabindex]:not([tabindex='-1'])",
 ];
 
 export function useFocusTrap(element: HTMLElement | null) {
@@ -29,6 +29,8 @@ export function useFocusTrap(element: HTMLElement | null) {
   }, [element]);
 
   return {
+    firstFocusable: focusable?.first,
+
     handleTab: useCallback(
       (event: KeyboardEvent) => {
         if (event.key !== "Tab") return;
