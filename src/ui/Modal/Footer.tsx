@@ -21,22 +21,22 @@ export const ModalFooter = ({
     <div className={clsx(className, styles.footer)}>
       {action && (
         <Button
+          {...action}
           variant="action"
           onClick={() => {
             action?.onClick?.();
             onClose();
           }}
-          {...action}
         />
       )}
       {dismiss && (
         <Button
+          {...dismiss}
           variant="default"
           onClick={() => {
             dismiss?.onClick?.();
             onClose();
           }}
-          {...dismiss}
         />
       )}
     </div>
