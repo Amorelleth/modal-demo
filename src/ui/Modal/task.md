@@ -12,3 +12,4 @@
 ○ Did you follow the instructions, i.e. does your solution work and meet GLS/NXT code challenge requirements?
 ○ Is your solution easy to read and understand?
 ○ Is your solution extensible?
+WAI aria links

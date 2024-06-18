@@ -4,13 +4,32 @@ import { Button, type ButtonProps } from "../Button";
 
 import styles from "./Modal.module.css";
 
+/**
+ * ModalFooter props
+ */
 export type FooterProps = {
+  /**
+   * Action button props
+   */
   action?: Omit<ButtonProps, "variant">;
+  /**
+   * Dismiss button props
+   */
   dismiss?: Omit<ButtonProps, "variant">;
+  /**
+   * className for the footer container
+   */
   className?: string;
+  /**
+   * Function called when the modal is closed
+   */
   onClose: () => void;
 };
 
+/**
+ * ModalFooter component displays action and dismiss buttons at the bottom of a modal
+ * Handles button clicks and triggers the onClose callback appropriately
+ */
 export const ModalFooter = ({
   action,
   dismiss,
@@ -25,7 +44,7 @@ export const ModalFooter = ({
           variant="action"
           onClick={() => {
             action?.onClick?.();
-            onClose();
+            onClose(); // Close modal after control clicked
           }}
         />
       )}
@@ -35,7 +54,7 @@ export const ModalFooter = ({
           variant="default"
           onClick={() => {
             dismiss?.onClick?.();
-            onClose();
+            onClose(); // Close modal after control clicked
           }}
         />
       )}

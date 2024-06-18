@@ -1,5 +1,6 @@
 import { useCallback, useState, useEffect } from "react";
 
+// focusable elements selectors
 const focusableSelectors = [
   "a[href]:not([disabled])",
   "button:not([disabled])",
@@ -9,7 +10,18 @@ const focusableSelectors = [
   "[tabindex]:not([tabindex='-1'])",
 ];
 
-export function useFocusTrap(element: HTMLElement | null) {
+type FocusTrapReturnType = {
+  firstFocusable?: HTMLElement;
+  handleTab: (event: KeyboardEvent) => void;
+};
+
+/**
+ * Hook managing focus trapping within a specified element
+ *
+ * @param element HTML element to trap focus within.
+ * @returns {FocusTrapReturnType}
+ */
+export function useFocusTrap(element: HTMLElement | null): FocusTrapReturnType {
   const [focusable, setFocusable] = useState<{
     first: HTMLElement;
     last: HTMLElement;
@@ -18,6 +30,7 @@ export function useFocusTrap(element: HTMLElement | null) {
   useEffect(() => {
     if (!element) return;
 
+    // Select all focusable elements within the provided element
     const focusableElements = element.querySelectorAll<HTMLElement>(
       focusableSelectors.join(",")
     );
@@ -36,13 +49,17 @@ export function useFocusTrap(element: HTMLElement | null) {
         if (event.key !== "Tab") return;
 
         if (event.shiftKey) {
+          // Handle shift + tab to move focus backward
           if (document.activeElement === focusable?.first) {
             focusable.last.focus();
             event.preventDefault();
           }
-        } else if (document.activeElement === focusable?.last) {
-          focusable.first?.focus();
-          event.preventDefault();
+        } else {
+          // Handle tab to move focus forward
+          if (document.activeElement === focusable?.last) {
+            focusable.first?.focus();
+            event.preventDefault();
+          }
         }
       },
       [focusable]

@@ -5,6 +5,12 @@ import { Button } from "../../ui/Button";
 
 import styles from "./App.module.css";
 
+/**
+ * DemoModal component for demonstrating a modal triggered by a button
+ * Combines a Button component as a trigger and a Modal component for displaying content
+ *
+ * @param triggerText The text displayed on the trigger button
+ */
 const DemoModal = ({
   triggerText,
   ...props
