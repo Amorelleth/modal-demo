@@ -41,41 +41,7 @@
     max-height: 80vh;
   }
 
-  .header {
-    position: sticky;
-    top: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding-block: 24px 0;
-    padding-inline: 18px;
-    background-color: #fff;
-
-    font-size: 20px;
-    font-weight: bold;
-
-    .title {
-      margin: 0;
-    }
-  }
-
   .content {
-    padding-inline: 18px;
-    background-color: #fff;
-  }
-
-  .footer {
-    position: sticky;
-    bottom: 0;
-
-    display: grid;
-    gap: 4px;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 1fr);
-
-    padding-block: 18px;
     padding-inline: 18px;
     background-color: #fff;
   }

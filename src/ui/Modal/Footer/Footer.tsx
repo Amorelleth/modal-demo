@@ -1,13 +1,13 @@
 import { clsx } from "clsx";
 
-import { Button, type ButtonProps } from "../Button";
+import { Button, type ButtonProps } from "../../Button";
 
-import styles from "./Modal.module.css";
+import styles from "./Footer.module.css";
 
 /**
  * ModalFooter props
  */
-export type FooterProps = {
+export type ModalFooterProps = {
   /**
    * Action button props
    */
@@ -35,7 +35,7 @@ export const ModalFooter = ({
   dismiss,
   className,
   onClose,
-}: FooterProps) => {
+}: ModalFooterProps) => {
   return (
     <div className={clsx(className, styles.footer)}>
       {action && (

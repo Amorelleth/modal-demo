@@ -10,10 +10,11 @@ import {
 import { createPortal } from "react-dom";
 import { clsx } from "clsx";
 
+import { useFocusTrap } from "../../hooks/useFocusTrap";
+
 import { ModalHeader } from "./Header";
-import { ModalFooter, type FooterProps } from "./Footer";
-import { useModal } from "./Context";
-import { useFocusTrap } from "./useFocusTrap";
+import { useModal } from "./Provider";
+import { ModalFooter, type ModalFooterProps } from "./Footer";
 
 import styles from "./Modal.module.css";
 
@@ -42,8 +43,8 @@ export type ModalProps = {
    * Optional footer buttons
    */
   footer?: {
-    action?: FooterProps["action"];
-    dismiss?: FooterProps["dismiss"];
+    action?: ModalFooterProps["action"];
+    dismiss?: ModalFooterProps["dismiss"];
   };
   /**
    * Trigger element ref

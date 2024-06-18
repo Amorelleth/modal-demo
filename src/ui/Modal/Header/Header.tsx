@@ -1,9 +1,9 @@
 import { clsx } from "clsx";
 
-import { Button } from "../Button";
+import { Button } from "../../Button";
 import { Cross } from "./Cross";
 
-import styles from "./Modal.module.css";
+import styles from "./Header.module.css";
 
 /**
  * ModalHeader props
