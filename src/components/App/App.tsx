@@ -10,6 +10,8 @@ export function App() {
   const [isLongcontentOpen, setIsLongContentOpen] = useState(false);
   const [isWithOneControlOpen, setIsWithOneControlOpen] = useState(false);
   const [isWithoutFooterOpen, setIsWithoutFooterOpen] = useState(false);
+  const [isWithDisabledActionOpen, setIsWithDisabledActionOpen] =
+    useState(false);
 
   return (
     <main className={styles.main}>
@@ -94,6 +96,27 @@ export function App() {
           title="Title"
           isOpen={isWithoutFooterOpen}
           onClose={() => setIsWithoutFooterOpen(false)}
+        >
+          Content
+        </Modal>
+
+        <Button
+          onClick={() => setIsWithDisabledActionOpen(true)}
+          text="Open modal with disabled action"
+        />
+        <Modal
+          title="Title"
+          isOpen={isWithDisabledActionOpen}
+          onClose={() => setIsWithDisabledActionOpen(false)}
+          footer={{
+            action: {
+              text: "Save",
+              disabled: true,
+            },
+            dismiss: {
+              text: "Cancel",
+            },
+          }}
         >
           Content
         </Modal>
