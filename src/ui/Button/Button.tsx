@@ -19,9 +19,9 @@ export const Button = forwardRef(
     {
       variant = "default",
       shape = "rounded",
-      text,
-      type,
+      type = "button",
       disabled = false,
+      text,
       onClick,
       icon: Icon,
       ariaLabel,
