@@ -7,14 +7,8 @@
   display: flex;
   justify-content: center;
 
-  &:hover {
+  &:hover:not(&:disabled) {
     transition: background-color 300ms linear;
-  }
-
-  &:disabled {
-    background-color: #afafaf;
-    color: #6e6d6d;
-    cursor: default;
   }
 
   &.action {
@@ -23,7 +17,7 @@
     background-color: var(--background-color-active);
     color: #1c401c;
 
-    &:hover {
+    &:hover:not(&:disabled) {
       background-color: color-mix(
         in srgb,
         var(--background-color-active),
@@ -33,18 +27,24 @@
   }
 
   &.default {
-    --background-color-default: #c0c0c0;
+    --background-color-default: #bfd3d4;
 
     background-color: var(--background-color-default);
     color: #1f1f1f;
 
-    &:hover {
+    &:hover:not(&:disabled) {
       background-color: color-mix(
         in srgb,
         var(--background-color-default),
         transparent 30%
       );
     }
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    color: #6e6d6d;
+    cursor: default;
   }
 
   &.pill {
